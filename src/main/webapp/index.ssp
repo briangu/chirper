@@ -13,6 +13,14 @@
   <script src="js/backbone.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/easydate.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/lib/codemirror.js"></script>
+  <script src="js/mode/clike/clike.js"></script>
+  <link rel="stylesheet" href="js/lib/codemirror.css">
+  <link rel="stylesheet" href="js/mode/clike/clike.css">
+  <style type="text/css">
+    .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+    .activeline {background: #f0fcff !important;}
+  </style>
 </head>
 <body>
 
@@ -34,86 +42,71 @@ We're hiring:
 -->
 
   <div id="main" class="main">
-    <div class="width4">
+    <div class="">
       <!-- Search app -->
       <div class="column width2 first chirper-search-app" id="chirper-search-app">
-        <div class="header">
-          <p class="about">
-            Type your query in the search box below to search in real-time the indexed stream of tweets.
-          </p>
-        </div>
         <div class="content">
           <form action="/" id="search-form">
-            <input type="text" name="q" autocomplete="off" id="q" placeholder="Search on Chirper" />
+            <input type="text" name="q" autocomplete="off" id="q" placeholder="Search yer codez" />
             <button class="search-button">Search</button>
           </form>
-          <div id="found-tweets"></div>
-          <div id="total-tweets"></div>
+          <div id="found-classes"></div>
+          <div id="total-classes"></div>
           <ul id="tweets">
           </ul>
         </div>
       </div>
+
       <!-- End Search app -->
-      <!-- Search Tech -->
-      <div class="column width2 last chirper-search-tech" id="chirper-search-tech">
-        <div class="header">
-          <h1>The Tools</h1>
-        </div>
-        <div class="content">
-          <ul>
-             <li>
-              <h2>SNA</h2>
-              <p>
-                The Search, Network, and Analytics team at LinkedIn works on LinkedIn's information retrieval systems, the social graph system, data driven features, and supporting data infrastructure. This site hosts the open source projects that have been built by members of our team (and our friends).
-                <a href="http://sna-projects.com/sna">Learn More..</a>
-              </p>
-            </li>
-            <li>
-              <h2>Sensei</h2>
-              <p>
-                A distributed searchable database that handles complex semi-structured queries. It can be used to power consumer search systems with rich structured data.
-                <a href="http://sna-projects.com/sensei">Learn More..</a>
-              </p>
-            </li>
-            <li>
-              <h2>Voldemort</h2>
-              <p>
-                Is a Distributed key-value store used at LinkedIn for certain high-scalability storage problems where simple functional partitioning is not sufficient.
-                <a href="http://sna-projects.com/voldemort">Learn More..</a>
-              </p>
-            </li>
-            <li>
-              <h2>Kafka</h2>
-              <p>
-                Provides a publish-subscribe solution that can handle all activity stream data and processing on a consumer-scale web site.
-                <a href="http://sna-projects.com/kafka">Learn More..</a>
-              </p>
-            </li>
-            <li>
-              <h2>TweetStreamer</h2>
-              <p>
-                A simple library for the Twitter streaming API, implements the reconnect strategy, and error policies specified on Twitter's documentation.
-                <a href="https://github.com/acrosa/Scala-TwitterStreamer">Learn More..</a>
-              </p>
-            </li>
-            <li>
-              <h2>And More..</h2>
-              <a href="https://github.com/scalatra/scalatra">Scalatra</a>, 
-              <a href="http://hadoop.apache.org/zookeeper/">Zookeeper</a>, 
-              <a href="https://github.com/afeinberg/scalmert">Scalmert</a>, 
-              <a href="http://sna-projects.com/norbert/">Norbert</a>, 
-              <a href="http://jetty.codehaus.org/jetty/">Jetty</a>, 
-              <a href="http://documentcloud.github.com/underscore/">Undercore.js</a>, 
-              <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>, 
-              <a href="http://mustache.github.com/">Mustache.js</a>, 
-              <a href="http://jquery.com/">JQuery</a>, 
-              <a href="http://www.google.com/webfonts">Google Font Directory</a>, 
-              and many more.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- End Search Tech -->
+      <div class="column width2 last" id="chirper-search-tech">
+      <form><textarea id="code" name="code">
+  public static void main(String[] args)
+  {
+    String bootstrapUrl = "tcp://localhost:6666";
+    StoreClientFactory factory = new SocketStoreClientFactory(new ClientConfig().setBootstrapUrls(bootstrapUrl));
+    StoreClient client = factory.getStoreClient("tweets");
+
+    Properties props = new Properties();
+    props.put("zk.connect", "127.0.0.1:2181");
+    props.put("serializer.class", "kafka.serializer.StringEncoder");
+    ProducerConfig config = new ProducerConfig(props);
+    Producer<String, String> producer = new Producer<String, String>(config);
+
+    processData(
+      "/Users/bguarrac/network-indexter/sensei.json",
+      "/Users/bguarrac/network-indexter/meta.json",
+      client,
+      producer,
+      "tweets");
+  }
+      </textarea></form>
+
+  var editor;
+
+    <script>
+editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  mode: "text/x-java",
+  readOnly: true,
+  lineNumbers: true,
+  matchBrackets: true,
+  onCursorActivity: function() {
+    editor.setLineClass(hlLine, null);
+    hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+  }
+});
+var hlLine = editor.setLineClass(0, "activeline");
+
+var openFile = function(hashId) {
+  $.ajax({url: '/store?q='+hashId,
+        type: 'GET',
+        success: function(data) {
+          editor.setValue(data);
+          hlLine = editor.setLineClass(0, "activeline");
+        }
+    });
+}
+</script>
+
       <div class="main-divider"></div>
     </div>
   </div>
@@ -125,8 +118,7 @@ We're hiring:
     {{#user}}
       <div class="user"><img src="{{profile_image_url}}"/> {{screen_name}}</div>
     {{/user}}
-    <div class="body">{{text}}</div>
-    <div class="ts">{{created_at}}</div>
+    <div class="body"><a href="#" onclick="openFile('{{hashId}}');">{{name}}</a></div>
   {{/status}}
   </div>
 </script>

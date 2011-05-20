@@ -14,10 +14,10 @@ a {
 #main {
   margin: 1em auto;
   padding-bottom: 54px;
-  width: 990px;
+  width: 100%;
+  margin-left: 20px;
 }
 #main .main-header {
-  background: url("/images/sprite.png") no-repeat scroll 235px -350px transparent;
   height: 108px;
   text-align: center;
 }
@@ -36,7 +36,7 @@ a {
   -moz-box-shadow: 0 1px 1px #ccc;
   height: 1200px;
   overflow: hidden;
-  width: 484px;
+  width: 500px;
 }
 #main .chirper-search-app .header .about {
   color: #666;
@@ -51,14 +51,6 @@ a {
   border-bottom-left-radius: 8px 8px;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-bottomleft: 8px;
-}
-#main .chirper-search-app .header {
-  background: #B5D3F2 url("/images/sprite.png") scroll repeat 0 90px;
-  -webkit-transition: all 10s linear;
-}
-#main .chirper-search-tech .header {
-  background: #FFF url("/images/sprite.png") scroll repeat 35px -150px;
-  text-indent: -1000px;
 }
 #main .chirper-search-app .content, #main .chirper-search-tech .content {
   padding: 0 27px;
