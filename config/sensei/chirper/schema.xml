@@ -16,8 +16,15 @@
   -->
 
   <table uid="id" delete-field="" skip-field="">
-	<column name="time" type="long" />
-	<column name="text" type="text" index="ANALYZED" store="NO" termvector="NO" />
+    <column name="time" type="long" />
+    <column name="hashId" type="string" />
+    <column name="name" type="string" />
+    <column name="nameOfSuperClass" type="string" />
+    <column name="methods" type="string" />
+    <column name="interfaces" type="string" />
+    <column name="constructors" type="string" />
+    <column name="fields" type="string" />
+    <column name="text" type="text" index="ANALYZED" store="NO" termvector="NO" />
   </table>
 
    <!-- 
@@ -30,6 +37,10 @@
       custom - custom facet handler, name must be defined in a spring bean in custom-facets.xml
    -->
    <facets>
-	 <facet name="time" type="range" depends=""/>
+     <facet name="methods" type="multi" depends=""/>
+     <facet name="interfaces" type="multi" depends=""/>
+     <facet name="constructors" type="multi" depends=""/>
+     <facet name="fields" type="multi" depends=""/>
+     <facet name="time" type="range" depends=""/>
    </facets>
 </schema>

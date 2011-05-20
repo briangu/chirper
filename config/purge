@@ -1,0 +1,6 @@
+rm -rf kafka/logs
+rm -rf sensei/chirper-index
+rm -rf voldemort/data
+rm -rf zookeeper/zoo_data
+
+
