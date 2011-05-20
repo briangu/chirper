@@ -74,6 +74,11 @@ class ChirperServlet extends ScalatraServlet with ScalateSupport {
     templateEngine.layout("index.ssp")
   }
 
+  get("/store") {
+    var q = params.getOrElse("q", "").trim()
+    tweetStore.get(q).get;
+  }
+
   get("/search"){
 	//log.info(request.getQueryString)
 	val start = System.currentTimeMillis()
@@ -85,8 +90,8 @@ class ChirperServlet extends ScalatraServlet with ScalateSupport {
 	// sort by time
 	req.addSortField(new SortField("time", SortField.CUSTOM, true))
 	
-	req.setFetchStoredFields(false)
-	
+	req.setFetchStoredFields(true)
+
 	var highlightScorer : Option[QueryScorer] = None
 	// Parse a query
 	  if (doHighlighting && q.length()>2){

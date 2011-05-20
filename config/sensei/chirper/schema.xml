@@ -24,7 +24,7 @@
     <column name="interfaces" type="string" />
     <column name="constructors" type="string" />
     <column name="fields" type="string" />
-    <column name="text" type="text" index="ANALYZED" store="NO" termvector="NO" />
+    <column name="text" type="text" index="ANALYZED" store="YES" termvector="NO" />
   </table>
 
    <!-- 
