@@ -77,7 +77,7 @@ class ChirperServlet extends ScalatraServlet with ScalateSupport {
   get("/store") {
     contentType = "text/plain"
     var q = params.getOrElse("q", "").trim()
-    tweetStore.get(q).get;
+    tweetStore.get(q).get.getValue;
   }
 
   get("/search"){
@@ -89,7 +89,7 @@ class ChirperServlet extends ScalatraServlet with ScalateSupport {
 	val req = DefaultSenseiJSONServlet.convertSenseiRequest(new DataConfiguration(new ServletRequestConfiguration(request)))
 	
 	// sort by time
-	req.addSortField(new SortField("time", SortField.CUSTOM, true))
+//	req.addSortField(new SortField("time", SortField.CUSTOM, true))
 	
 	req.setFetchStoredFields(true)
 

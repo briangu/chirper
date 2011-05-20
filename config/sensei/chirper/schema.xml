@@ -42,6 +42,10 @@
      <facet name="constructors" type="multi" depends=""/>
      <facet name="fields" type="multi" depends=""/>
      <facet name="time" type="range" depends=""/>
-     <facet name="name" type="path" delimiter="." depends=""/>
+     <facet name="name" type="path" depends="">
+      <params>
+        <param name="separator" value="." />
+      </params>
+     </facet>
    </facets>
 </schema>
