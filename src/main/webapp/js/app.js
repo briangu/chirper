@@ -87,6 +87,7 @@ $(function(){
     },
 
     refreshUIElements: function() {
+        return;
       // Refresh clouds
       var div = $("#chirper-search-app .header").css("background-position-x");
       var x_position = div.substring(0, div.length - 2);

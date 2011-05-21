@@ -58,7 +58,7 @@ We're hiring:
       </div>
 
       <!-- End Search app -->
-      <div class="column width2 last" id="chirper-search-tech">
+      <div class="column width2" id="">
       <form><textarea id="code" name="code">
   public static void main(String[] args)
   {
@@ -81,9 +81,9 @@ We're hiring:
   }
       </textarea></form>
 
+    <script>
   var editor;
 
-    <script>
 editor = CodeMirror.fromTextArea(document.getElementById("code"), {
   mode: "text/x-java",
   readOnly: true,
@@ -101,6 +101,11 @@ var openFile = function(hashId) {
         type: 'GET',
         success: function(data) {
           editor.setValue(data);
+        }
+    });
+  $.ajax({url: '/store?q='+hashId+"_META",
+        type: 'GET',
+        success: function(data) {
           hlLine = editor.setLineClass(0, "activeline");
         }
     });
