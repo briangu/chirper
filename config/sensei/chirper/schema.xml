@@ -20,11 +20,11 @@
     <column name="hashId" type="string" />
     <column name="name" type="string"/>
     <column name="nameOfSuperClass" type="string" />
-    <column name="methods" type="string" />
-    <column name="interfaces" type="string" />
-    <column name="constructors" type="string" />
-    <column name="fields" type="string" />
-    <column name="text" type="text" index="ANALYZED" store="YES" termvector="NO" />
+    <column name="methods" type="string" multi="true" delimiter=","/>
+    <column name="interfaces" type="string" multi="true" delimiter=","/>
+    <column name="constructors" type="string" multi="true" delimiter=","/>
+    <column name="fields" type="string" multi="true" delimiter=","/>
+    <column name="text" type="text" index="ANALYZED" store="NO" termvector="NO" />
   </table>
 
    <!-- 
@@ -37,15 +37,15 @@
       custom - custom facet handler, name must be defined in a spring bean in custom-facets.xml
    -->
    <facets>
-     <facet name="methods" type="multi" depends=""/>
-     <facet name="interfaces" type="multi" depends=""/>
-     <facet name="constructors" type="multi" depends=""/>
-     <facet name="fields" type="multi" depends=""/>
-     <facet name="time" type="range" depends=""/>
+     <facet name="methods" type="multi"/>
+     <facet name="interfaces" type="multi"/>
+     <facet name="constructors" type="multi"/>
+     <facet name="fields" type="multi"/>
      <facet name="name" type="path" depends="">
       <params>
         <param name="separator" value="." />
       </params>
      </facet>
+     <facet name="time" type="range" depends=""/>
    </facets>
 </schema>

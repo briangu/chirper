@@ -47,7 +47,7 @@ We're hiring:
       <div class="column width2 first chirper-search-app" id="chirper-search-app">
         <div class="content">
           <form action="/" id="search-form">
-            <input type="text" name="q" autocomplete="off" id="q" placeholder="Search yer codez" />
+            <input type="text" name="q" autocomplete="off" id="q" placeholder="Search yer c0d3z" />
             <button class="search-button">Search</button>
           </form>
           <div id="found-classes"></div>
@@ -90,26 +90,67 @@ editor = CodeMirror.fromTextArea(document.getElementById("code"), {
   lineNumbers: true,
   matchBrackets: true,
   onCursorActivity: function() {
-    editor.setLineClass(hlLine, null);
-    hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+//    editor.setLineClass(hlLine, null);
+//    hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+  },
+  onChange: function() {
+    var q = $('#q').val();
+    if (q != "")
+    {
+      $.getJSON('/store?q='+masterHashId+"_META",
+            function(data) {
+              moveToFirstHighlight = true;
+              applyHighlights(q, data);
+            }
+      );
+    }
   }
 });
-var hlLine = editor.setLineClass(0, "activeline");
+
+var hlLine;
+var moveToFirstHighlight = false;
+
+String.prototype.startsWith = function(str){
+    return (this.toLowerCase().indexOf(str.toLowerCase()) >= 0);
+}
+
+var highlight = function(query, arr)
+{
+  $.each(arr, function(index, value) {
+    var name = value.name;
+    if (name == undefined) return true;
+    if (name.startsWith(query)) {
+      start = {line: value.loc.start.line-1, ch: value.loc.start.ch-1};
+      stop = {line: value.loc.stop.line-1, ch: value.loc.stop.ch-1};
+      editor.markText(start, stop, "texthighlight");
+      if (moveToFirstHighlight) {
+        editor.setCursor(start);
+        editor.focus();
+        moveToFirstHighlight = false;
+      }
+    }
+  });
+}
+
+var masterHashId ;
 
 var openFile = function(hashId) {
+  masterHashId = hashId;
   $.ajax({url: '/store?q='+hashId,
         type: 'GET',
         success: function(data) {
           editor.setValue(data);
         }
     });
-  $.ajax({url: '/store?q='+hashId+"_META",
-        type: 'GET',
-        success: function(data) {
-          hlLine = editor.setLineClass(0, "activeline");
-        }
-    });
 }
+
+var applyHighlights = function(q, data) {
+  highlight(q, data.methods);
+  highlight(q, data.interfaces);
+  highlight(q, data.fields);
+  highlight(q, data.constructors);
+}
+
 </script>
 
       <div class="main-divider"></div>
