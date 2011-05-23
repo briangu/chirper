@@ -81,8 +81,8 @@ $(function(){
       this.isLoading = false;
 
       // Clouds movement
-      this.cloudsInterval = setInterval(this.refreshUIElements, 10000);
-      this.totalInterval = setInterval(this.refreshTotalCount, 4000);
+//      this.cloudsInterval = setInterval(this.refreshUIElements, 10000);
+//      this.totalInterval = setInterval(this.refreshTotalCount, 4000);
       this.refreshUIElements();
     },
 
@@ -124,7 +124,34 @@ $(function(){
       if(!that.isLoading) { // If we are not loading a search already
         that.timeout = setTimeout(function() {
           that.isLoading = true;
-          Tweets.url = "/search?q="+ this.$("#q").val(); // Let's update the collection url with the extra params we want to send (the search term)
+
+          // determine facets
+          var rawQuery = this.$("#q").val();
+          var parts = rawQuery.split(" ");
+          var cmds = new Array();
+          $.each(parts, function(index, value) {
+            subparts = value.split("=");
+            if (subparts.length > 1)
+            {
+              if (subparts[0] == 'm') {
+                cmds.push("select.methods.val="+subparts[1]);
+              } else if (subparts[0] == 'i') {
+                cmds.push("select.interfaces.val="+subparts[1]);
+              } else if (subparts[0] == 'c') {
+                cmds.push("select.constructors.val="+subparts[1]);
+              } else if (subparts[0] == 'n') {
+                cmds.push("select.name.val="+subparts[1]);
+              } else if (subparts[0] == 'f') {
+                cmds.push("select.fields.val="+subparts[1]);
+              }
+            }
+            else
+            {
+              cmds.push("q="+subparts[0]);
+            }
+          });
+
+          Tweets.url = "/search?rows=200&"+ cmds.join('&'); // Let's update the collection url with the extra params we want to send (the search term)
           Tweets.fetch({
             success: function() {
               that.isLoading = false; // After we fetched the results, we should allow new searches.

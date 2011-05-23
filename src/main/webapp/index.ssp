@@ -2,10 +2,13 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Chirper</title>
+  <title>inDexter - Code Intelligence</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!--
   <link rel="stylesheet" href="/css/baseline.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen" title="no title" charset="utf-8">
+-->
+  <link rel="stylesheet" href="/css/simple.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <link href='http://fonts.googleapis.com/css?family=Puritan' rel='stylesheet' type='text/css'>
   <script src="/js/underscore.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/mustache.js" type="text/javascript" charset="utf-8"></script>
@@ -40,25 +43,26 @@ We're hiring:
   http://www.linkedin.com/static?key=jobs_open
 
 -->
-
+  <h2>inDexter: Code Intelligence</h2>
   <div id="main" class="main">
     <div class="">
       <!-- Search app -->
-      <div class="column width2 first chirper-search-app" id="chirper-search-app">
-        <div class="content">
-          <form action="/" id="search-form">
-            <input type="text" name="q" autocomplete="off" id="q" placeholder="Search yer c0d3z" />
-            <button class="search-button">Search</button>
-          </form>
+      <div id="chirper-search-app">
+        <form action="/" id="search-form">
+          <input type="text" name="q" autocomplete="off" id="q" placeholder="Search yer c0d3z" />
+          <button class="search-button">Search</button>
+        </form>
+        <div class="searchResults scrollable">
           <div id="found-classes"></div>
           <div id="total-classes"></div>
-          <ul id="tweets">
-          </ul>
+          <div>
+            <ul id="tweets">
+            </ul>
+          </div>
         </div>
       </div>
-
       <!-- End Search app -->
-      <div class="column width2" id="">
+      <div class="resultEditor" id="">
       <form><textarea id="code" name="code">
   public static void main(String[] args)
   {
@@ -100,7 +104,7 @@ editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       $.getJSON('/store?q='+masterHashId+"_META",
             function(data) {
               moveToFirstHighlight = true;
-              applyHighlights(q, data);
+              applyHighlights(data);
             }
       );
     }
@@ -116,6 +120,7 @@ String.prototype.startsWith = function(str){
 
 var highlight = function(query, arr)
 {
+  if (query == undefined) return;
   $.each(arr, function(index, value) {
     var name = value.name;
     if (name == undefined) return true;
@@ -144,11 +149,40 @@ var openFile = function(hashId) {
     });
 }
 
-var applyHighlights = function(q, data) {
-  highlight(q, data.methods);
-  highlight(q, data.interfaces);
-  highlight(q, data.fields);
-  highlight(q, data.constructors);
+var getSearchCommands = function() {
+  var rawQuery = $("#q").val();
+  var parts = rawQuery.split(" ");
+  var cmds = {};
+  $.each(parts, function(index, value) {
+    subparts = value.split("=");
+    if (subparts.length > 1)
+    {
+      if (subparts[0] == 'm') {
+        cmds["methods"] = subparts[1];
+      } else if (subparts[0] == 'i') {
+        cmds["interfaces"]=subparts[1];
+      } else if (subparts[0] == 'c') {
+        cmds["constructors"]=subparts[1];
+      } else if (subparts[0] == 'n') {
+        cmds["name"] = subparts[1];
+      } else if (subparts[0] == 'f') {
+        cmds["fields"] = subparts[1];
+      }
+    }
+    else
+    {
+      cmds["keywords"] = subparts[0];
+    }
+  });
+  return cmds;
+}
+
+var applyHighlights = function(data) {
+  cmds = getSearchCommands();
+  highlight(cmds["methods"] == undefined ? cmds["keywords"] : cmds["methods"], data.methods);
+  highlight(cmds["interfaces"] == undefined ? cmds["keywords"] : cmds["interfaces"], data.interfaces);
+  highlight(cmds["fields"] == undefined ? cmds["keywords"] : cmds["fields"], data.fields);
+  highlight(cmds["constructors"] == undefined ? cmds["keywords"] : cmds["constructors"], data.constructors);
 }
 
 </script>

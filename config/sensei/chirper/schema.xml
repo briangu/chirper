@@ -41,11 +41,11 @@
      <facet name="interfaces" type="multi"/>
      <facet name="constructors" type="multi"/>
      <facet name="fields" type="multi"/>
-     <facet name="name" type="path" depends="">
+     <facet name="name" type="path">
       <params>
         <param name="separator" value="." />
       </params>
      </facet>
-     <facet name="time" type="range" depends=""/>
+     <facet name="time" type="range"/>
    </facets>
 </schema>

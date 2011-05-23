@@ -4,124 +4,9 @@
 body {
   background-color: #FFFFFF;
   font-family: Helvetica, Arial, sans-serif;
-  padding: 18px 0;
-  text-align: center;
-}
-a {
-  color: black;
-  text-decoration: none;
-}
-#main {
-  margin: 1em auto;
-  padding-bottom: 54px;
-  width: 100%;
-  margin-left: 20px;
-}
-#main .main-header {
-  height: 108px;
-  text-align: center;
-}
-#main h2 {
-  font-family: 'Puritan', Helvetica, Arial, sans-serif;
-}
-#main .chirper-search-app .header, #main .chirper-search-tech .header {
-  display: block;
-  height: 200px;
-}
-#main .chirper-search-app, #main .chirper-search-tech {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 1px 1px #ccc;
-  -webkit-box-shadow: 0 1px 1px #ccc;
-  -moz-box-shadow: 0 1px 1px #ccc;
-  height: 1200px;
-  overflow: hidden;
-  width: 500px;
-}
-#main .chirper-search-app .header .about {
-  color: #666;
-  float: right;
   font-size: 13px;
-  padding: 18px 27px 18px 18px;
-  text-align: right;
-  width: 200px;
-}
-#main .chirper-search-app {
-  border-top-left-radius: 8px 8px;
-  border-bottom-left-radius: 8px 8px;
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-bottomleft: 8px;
-}
-#main .chirper-search-app .content, #main .chirper-search-tech .content {
-  padding: 0 27px;
-}
-#main .chirper-search-app .content #total-tweets {
-  padding: 9px 0 0 0;
-  clear: both;
-  color: #666;
-}
-#main .chirper-search-app .content form {
-  padding-top: 18px;
-  text-align: center;
 }
 
-#main .chirper-search-app .tweet .user {
-  font-size: 14px;
-  font-weight: bold;
-}
-#main .chirper-search-app .tweet .user img {
-  border-radius: 6px;
-  float: left;
-  width: 48px;
-  height: 48px;
-  margin-right: 9px;
-  border-top-left-radius: 6px 6px;
-  border-top-right-radius: 6px 6px;
-  border-bottom-right-radius: 6px 6px;
-  border-bottom-left-radius: 6px 6px;
-  -moz-border-radius: 6px;
-}
-#main .chirper-search-app .tweet {
-  margin-bottom: 18px;
-}
-#main .chirper-search-app .tweet .ts {
-  color: #999;
-  font-size: 12px;
-}
-#main .chirper-search-tech {
-  border-top-right-radius: 8px 8px;
-  border-bottom-right-radius: 8px 8px;
-  -moz-border-radius-topright: 8px;
-  -moz-border-radius-bottomright: 8px;
-}
-#main .chirper-search-tech h1 {
-}
-#main .chirper-search-app ul, #main .chirper-search-tech ul {
-  margin-left: 0;
-  padding-left: 0;
-}
-#main .chirper-search-tech ul li {
-  list-style-type: none;
-  margin-bottom: 36px;
-}
-#main .chirper-search-tech ul li p a {
-  display: inline-block;
-  font-size: 14px;
-  color: #666;
-  text-decoration: none;
-}
-#main .main-divider {
-  background-color: #EEE;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 1px 1px #ccc;
-  height: 1200px;
-  left: 486px;
-  position: relative;
-  -webkit-box-shadow: 0 1px 1px #ccc;
-  -moz-box-shadow: 0 1px 1px #ccc;
-  width: 18px;
-}
 input#q {
   background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#fff));
   background: -moz-linear-gradient(top, #eee, #fff);
@@ -129,7 +14,7 @@ input#q {
   border-radius: 3px;
   font-size: 18px;
   padding: 6px 9px;
-  width: 296px;
+  width: 500px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff');
@@ -222,13 +107,13 @@ button::-moz-focus-inner {
   width: 90px;
 }
 
-.hl
+.texthighlight
 {
   font-weight:bold;
   background-color: yellow
 }
 
-.texthighlight
+.hl
 {
   font-weight:bold;
   background-color: yellow
@@ -236,4 +121,17 @@ button::-moz-focus-inner {
 
 .scrollable {
   overflow:auto;
+}
+
+.searchResults {
+  margin-top: 20px;
+  float: left;
+  width: 100%;
+  height: 200px;
+}
+
+.resultEditor {
+  margin-top: 20px;
+  width: 1024px;
+  height: 100%;
 }
