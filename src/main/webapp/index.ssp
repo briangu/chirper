@@ -44,7 +44,7 @@ We're hiring:
 
 -->
   <h2>inDexter: Code Intelligence</h2>
-  <p>m=[method] f=[field] n=[namespace] i=[interface] c=[constructor]</p>
+  <p>m=[method] f=[field] n=[namespace (may be partial)] i=[interface] c=[constructor] [keywords]</p>
   <div id="main" class="main">
     <div class="">
       <!-- Search app -->
